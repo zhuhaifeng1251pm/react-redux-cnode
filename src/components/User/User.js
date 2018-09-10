@@ -7,7 +7,7 @@ import ShowCreatelist from "../ShowCreatelist";
 import ShowJoinlists from "../ShowJoinlists";
 class User extends Component {
   handleAuthor=(name) => {
-    this.props.showUser(name)
+    this.props.showUser(name,this.props.history)
 }
   componentDidMount = () => {  
     this.props.showUser(this.props.match.params.loginname,this.props.history)
@@ -49,6 +49,7 @@ class User extends Component {
     <ShowJoinlists user={user}  />
     </div>
     <div className="right">
+        <p style={{color: '#51585c',padding: '10px',backgroundColor: '#f6f6f6',lineHeight: '20px'}}><span>个人信息</span></p>
             <NavLink to={`/user/${useru}`}>  <img style={{width:'48px',height:'48px'}}src={userimg} alt="" onClick={()=>{this.handleAuthor(useru)}}/></NavLink> <span>{useru}</span></div>
         </Wrap>;
   }

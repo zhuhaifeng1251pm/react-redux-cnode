@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
-import {Link} from 'react-router-dom'
+import {Link,NavLink} from 'react-router-dom'
 import axios from 'axios';
 import {URI} from '../../constants/url'
 import { Button,Avatar } from 'antd';
@@ -47,10 +47,12 @@ class Header extends Component {
         })
     }
     render() {
-        // const {login}=this.props
+        const {num}=this.props
         const {name,img,token}=sessionStorage
         const {texts}=this.state     
-        const showLogin= token? <div className='login-box'><span id='username'>{name}</span><Link to={`/user/${name}`}><span onClick={()=>{this.handleShowUser(name)}}><Avatar style={{width:'30px',marginRight:'15px'}} src={img} /></span></Link><Link to={`/topics/create`}><Button type="primary" ghost >发布主题</Button></Link><Link to={`/topics/edit`}><Button type="primary" ghost style={{marginLeft:'10px'}}>编辑主题</Button></Link><Button type="primary" onClick={this.handleGoOut} style={{marginLeft:'10px'}}>登出</Button>
+        const showLogin= token? <div className='login-box'><span id='username'>{name}</span><Link to={`/user/${name}`}><span onClick={()=>{this.handleShowUser(name)}}><Avatar style={{width:'30px',marginRight:'15px'}} src={img} /></span></Link><Link to={`/topics/create`}><Button type="primary" ghost >发布主题</Button></Link><Link to={`/topics/edit`}><Button type="primary" ghost style={{marginLeft:'10px'}}>编辑主题</Button></Link>
+        <NavLink to={`/message`} className='message'>未读消息 <span className='message-num' style={{display:num?'block':'none'}} >{num?num:''}</span> </NavLink>
+        <Link to={`/`}>  <Button type="primary" onClick={this.handleGoOut} style={{marginLeft:'10px'}}>登出</Button></Link>
         </div> : <div className='login-box'> <input type="text" value={texts} onChange={this.handleChange}/><Link to={`/`}>
         <Button type="primary" onClick={this.handleLogin}>登录</Button>
         </Link></div>
@@ -79,9 +81,23 @@ const Wrap=styled.div`
         display:flex;
         align-items: center;
         justify-content: space-between;
-       
+       .message{
+        text-decoration: none;
+        display:flex;
+        align-items: center;
+        margin:0 5px 0 10px;
+        .message-num{
+            color:#fff;
+            border-radius:50%;
+            height:20px;
+            width:20px;
+            background-color:rgb(128, 189, 1);
+            text-align: center;
+        }
+       }
       input{
           margin-right:90px;
+
       }  
 
     h1{
