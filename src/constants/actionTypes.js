@@ -1,0 +1,11 @@
+export const GET_TOPICS ='GET_TOPICS'
+export const CHANGE_TAB ='CHANGE_TAB'
+export const SHOW_ARTICLE ='SHOW_ARTICLE'
+export const CHANGE_COLLECT ='CHANGE_COLLECT'
+export const CHANGE_GOODNUM ='CHANGE_GOODNUM'
+export const CHANGE_LOGIN ='CHANGE_LOGIN'
+export const CHANGE_DECOLLECT ='CHANGE_DECOLLECT'
+export const ADD_COMMENT ='ADD_COMMENT'
+export const SHOW_USER ='SHOW_USER'
+
+

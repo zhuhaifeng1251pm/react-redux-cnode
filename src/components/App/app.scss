@@ -1,0 +1,9 @@
+@import '../../asset/global.scss';
+.app{
+    background: $bg;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
