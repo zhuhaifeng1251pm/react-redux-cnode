@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Quill from "quill";
-import "../../node_modules/quill/dist/quill.bubble.css";
+// import "../../node_modules/quill/dist/quill.bubble.css";
+import "../../node_modules/quill/dist/quill.snow.css";
 import { Button } from "antd";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -22,9 +23,10 @@ class CreateTopic extends Component {
   }
   handleSubmits = () => {
     const {value,areaValue,selectValue}=this.state
-    const content=`<div class="markdown-text">${value}</div>` 
+    const content=`${value}` 
     const token=sessionStorage.token
     const uri =`${URI}/topics`
+    console.log(token,areaValue,selectValue,content)
     axios.post(uri,{accesstoken:token,title:areaValue,tab:selectValue,content:content}).then(res=>{
       alert('创建成功')
     }).catch(err=>{})
@@ -47,7 +49,7 @@ class CreateTopic extends Component {
       },
       placeholder: "请输入文本...,修改文字简易样式，请选中要修改的文字即可弹出修改框",
       readOnly: false,
-      theme: "bubble"
+      theme: "snow"
     };
     const editor = (this.editor = new Quill(textbox, options));
     const { value } = this.state;

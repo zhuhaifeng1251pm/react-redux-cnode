@@ -24,14 +24,14 @@ class App extends Component {
     this.props.getTopics();
     const token =sessionStorage.token
     const uri=`${URI}/message/count/?accesstoken=${token}`
-    // if(token){
+    if(token){
     axios.get(uri).then(res=>{
       console.log(res.data.data)
       this.setState({
         num:res.data.data
       })
     }).catch(err=>{})
-  // }
+  }
   }
 
   render() {

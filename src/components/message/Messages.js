@@ -4,17 +4,40 @@ import axios from "axios";
 import { URI } from "../../constants/url";
 import { NavLink } from "react-router-dom";
 import "./message.scss";
+import { Button} from 'antd';
 class Messages extends Component {
   state = {
     isRead: [],
     isNoRead: []
   };
+  changeMarked=id=>{
+    const uri=`${URI}/message/mark_one/${id}`
+    const {token}=sessionStorage
+    const {isNoRead}=this.state
+    axios.post(uri,{accesstoken:token}).then(res=>{
+      this.setState({
+       isNoRead: isNoRead.filter(t=>t.id!==id)
+      })
+
+    }).catch(err=>{})
+  }
+  changeMarkedAll=()=>{
+    const uri=`${URI}/message/mark_all`
+    const {token}=sessionStorage
+    axios.post(uri,{accesstoken:token}).then(res=>{
+      this.setState({
+       isNoRead: []
+      })
+
+    }).catch(err=>{})
+  }
   handleAuthor = name => {
     this.props.showUser(name, this.props.history);
   };
   componentDidMount = () => {
     const token = sessionStorage.token;
     const uri = `${URI}/messages/?accesstoken=${token}`;
+    if(token){
     axios
       .get(uri)
       .then(res => {
@@ -24,37 +47,39 @@ class Messages extends Component {
           isNoRead: res.data.data.hasnot_read_messages
         });
       })
-      .catch(err => {});
+      .catch(err => {});}
   };
   render() {
     const { name, img } = sessionStorage;
     const { isNoRead, isRead } = this.state;
     const isNoreadMessage = (
       <div className="isNoreadMessage">
-        <p>
+        <div>
           <NavLink to={`/`} exact className="toHome">
             主页
           </NavLink>
           <span>/</span>
           <span>新消息</span>
-        </p>
+          <Button type="primary" ghost onClick={this.changeMarkedAll} style={{display:isNoRead.length?'block':'none'}} >全部为已读？</Button>
+        </div>
         <ul>
           {isNoRead.length ? (
             isNoRead.map(t => (
               <li key={t.id}>
                 <div>
-                  <NavLink to={`/user/${t.author.loginname}`}>
+                  <NavLink to={`/user/${t.author.loginname}`} style={{marginRight:'10px'}}>
                     {t.author.loginname}
                   </NavLink>
                   回复了你的话题
                 </div>
                 <NavLink to={`/topic/${t.topic.id}`} className="title">
-                  {t.topic.title}}
+                  {t.topic.title}
                 </NavLink>
+                <Button type="primary" ghost onClick={()=>{this.changeMarked(t.topic.id)}} >标记为已读？</Button>
               </li>
             ))
           ) : (
-            <span>无消息</span>
+            <div style={{lineHeight:'30px',padding:'10px',color:'#000',backgroundColor:'#fff'}}>无消息</div>
           )}
         </ul>
       </div>
@@ -69,7 +94,7 @@ class Messages extends Component {
             isRead.map(t => (
               <li key={t.id}>
                 <div>
-                  <NavLink to={`/user/${t.author.loginname}`}>
+                  <NavLink to={`/user/${t.author.loginname}`} style={{marginRight:'10px'}}>
                     {t.author.loginname}
                   </NavLink>
                   回复了你的话题
@@ -84,7 +109,7 @@ class Messages extends Component {
               </li>
             ))
           ) : (
-            <span>无消息</span>
+            <div style={{lineHeight:'30px',padding:'10px',color:'#000',backgroundColor:'#fff'}}>无消息</div>
           )}
         </ul>
       </div>
@@ -141,10 +166,10 @@ const Wrap = styled.div`
     margin: 0;
     li {
       border-top: 1px solid #eee;
-      height: 42px;
+      line-height: 20px;
       padding: 10px 15px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
 
       .title {
         width: 300px;
@@ -154,6 +179,11 @@ const Wrap = styled.div`
         text-overflow: ellipsis;
         display: inline-block;
         vertical-align: middle;
+        margin-left:10px;
+      }
+      .title:hover{
+        text-decoration: underline;
+        color: #005580;
       }
     }
   }

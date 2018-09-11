@@ -10,6 +10,12 @@
     display: flex;
     align-items: center;
 }
+label{
+  font-family:username;
+  -webkit-animation: neon2 1.5s ease-in-out infinite alternate;
+  -moz-animation: neon2 1.5s ease-in-out infinite alternate;
+  animation: neon2 1.5s ease-in-out infinite alternate;
+}
 input{
     outline: 0;
     border:0;

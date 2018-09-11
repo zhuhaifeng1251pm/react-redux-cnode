@@ -11,11 +11,12 @@ class ShowCreatelist extends Component {
       <ul>
         {user.data.recent_topics.slice(0, 5).map(topic => (
           <li key={topic.id}>
+          <NavLink to={`/user/${topic.author.loginname}`}>
             <img
               src={topic.author.avatar_url}
               alt=""
               style={{ width: "30px", height: "30px" }}
-            />
+            /></NavLink>
             <span className="box1">
               <span style={{color:'#9e78c0',fontSize:"14px",fontWeight:'bold',    wordBreak: 'break-word'}}>20</span>
               <span style={{color:'#999',fontSize:'10px'}}>/1000</span>

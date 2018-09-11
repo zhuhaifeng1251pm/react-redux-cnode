@@ -15,7 +15,7 @@ class User extends Component {
   }
   render() {
     const { user} = this.props;
-    console.log(user);
+    console.log(this.props);
     const useru=user?user.data.loginname:''
     const userimg=user?user.data.avatar_url:''
     const toShowUser = user?
