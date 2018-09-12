@@ -42,16 +42,21 @@ class Header extends Component {
             sessionStorage.img=res.data.avatar_url
             sessionStorage.token=texts
             store.dispatch(changeLogin(login))
+            this.props.showMessage()
         }).catch(err=>{
             alert('error')
         })
     }
     render() {
-        const {num}=this.props
+        const {message}=this.props
+        const data=message?message.data:''
+        const num =data? message.data.hasnot_read_messages.length:''
         const {name,img,token}=sessionStorage
         const {texts}=this.state     
         const showLogin= token? <div className='login-box'><span id='username'>{name}</span><Link to={`/user/${name}`}><span onClick={()=>{this.handleShowUser(name)}}><Avatar style={{width:'30px',marginRight:'15px'}} src={img} /></span></Link><Link to={`/topics/create`}><Button type="primary" ghost >发布主题</Button></Link><Link to={`/topics/edit`}><Button type="primary" ghost style={{marginLeft:'10px'}}>编辑主题</Button></Link>
-        <NavLink to={`/message`} className='message'>未读消息 <span className='message-num' style={{display:num?'block':'none'}} >{num?num:''}</span> </NavLink>
+        <NavLink to={`/message`} className='message'>未读消息 
+        <span className='message-num' style={{display:num?'block':'none'}} >{num?num:''}</span> 
+        </NavLink>
         <Link to={`/`}>  <Button type="primary" onClick={this.handleGoOut} style={{marginLeft:'10px'}}>登出</Button></Link>
         </div> : <div className='login-box'> <label htmlFor="inputss" style={{color:'#fff',marginRight:'15px'}}>请输入您的Cnode Token码 </label> <input id="inputss" type="text" value={texts} onChange={this.handleChange}/><Link to={`/`}>
         <Button type="primary" onClick={this.handleLogin}>登录</Button>

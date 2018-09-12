@@ -6,67 +6,64 @@ import { NavLink } from "react-router-dom";
 import "./message.scss";
 import { Button} from 'antd';
 class Messages extends Component {
-  state = {
-    isRead: [],
-    isNoRead: []
-  };
+ 
   changeMarked=id=>{
-    const uri=`${URI}/message/mark_one/${id}`
-    const {token}=sessionStorage
-    const {isNoRead}=this.state
-    axios.post(uri,{accesstoken:token}).then(res=>{
-      this.setState({
-       isNoRead: isNoRead.filter(t=>t.id!==id)
-      })
-
-    }).catch(err=>{})
+    // const uri=`${URI}/message/mark_one/${id}`
+    // const {token}=sessionStorage
+    // axios.post(uri,{accesstoken:token}).then(res=>{
+    
+    //   this.props.showMessage()
+    // }).catch(err=>{})
+    this.props.updateMessage(id,this.props.message)
+    // console.log(this.props.message)
   }
   changeMarkedAll=()=>{
     const uri=`${URI}/message/mark_all`
     const {token}=sessionStorage
     axios.post(uri,{accesstoken:token}).then(res=>{
-      this.setState({
-       isNoRead: []
-      })
-
+      this.props.showMessage()
     }).catch(err=>{})
   }
   handleAuthor = name => {
     this.props.showUser(name, this.props.history);
   };
   componentDidMount = () => {
-    const token = sessionStorage.token;
-    const uri = `${URI}/messages/?accesstoken=${token}`;
-    if(token){
-    axios
-      .get(uri)
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          isRead: res.data.data.has_read_messages,
-          isNoRead: res.data.data.hasnot_read_messages
-        });
-      })
-      .catch(err => {});}
+    // const token = sessionStorage.token;
+    // const uri = `${URI}/messages/?accesstoken=${token}`;
+    // if(token){
+    // axios
+    //   .get(uri)
+    //   .then(res => {
+    //     console.log(res.data);
+    //     this.setState({
+    //       isRead: res.data.data.has_read_messages,
+    //       isNoRead: res.data.data.hasnot_read_messages
+    //     });
+    //   })
+    //   .catch(err => {});}
+    this.props.showMessage()
   };
   render() {
     const { name, img } = sessionStorage;
-    const { isNoRead, isRead } = this.state;
+    const {message}=this.props
+    console.log(this.props)
+    const isNoRead=message? message.data.hasnot_read_messages:''
+    const isRead=message ?message.data.has_read_messages:''
     const isNoreadMessage = (
       <div className="isNoreadMessage">
-        <div>
+        <div >
           <NavLink to={`/`} exact className="toHome">
             主页
           </NavLink>
           <span>/</span>
-          <span>新消息</span>
+          <span style={{color:isNoRead.length?'#000':'#ccc'}}>新消息</span>
           <Button type="primary" ghost onClick={this.changeMarkedAll} style={{display:isNoRead.length?'block':'none'}} >全部为已读？</Button>
         </div>
         <ul>
           {isNoRead.length ? (
             isNoRead.map(t => (
               <li key={t.id}>
-                <div>
+                <div className='box1'>
                   <NavLink to={`/user/${t.author.loginname}`} style={{marginRight:'10px'}}>
                     {t.author.loginname}
                   </NavLink>
@@ -75,7 +72,7 @@ class Messages extends Component {
                 <NavLink to={`/topic/${t.topic.id}`} className="title">
                   {t.topic.title}
                 </NavLink>
-                <Button type="primary" ghost onClick={()=>{this.changeMarked(t.topic.id)}} >标记为已读？</Button>
+                <Button type="primary" ghost onClick={()=>{this.changeMarked(t.id)}} style={{marginLeft:'180px'}}>标记为已读？</Button>
               </li>
             ))
           ) : (
@@ -170,6 +167,12 @@ const Wrap = styled.div`
       padding: 10px 15px;
       display: flex;
       align-items: flex-start;
+      .box1{
+        width: 230px;
+        background-color: #fff;
+        padding: 0;
+        color:rgba(0, 0, 0, 0.65);
+      }
 
       .title {
         width: 300px;

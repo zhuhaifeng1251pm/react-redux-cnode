@@ -7,5 +7,9 @@ export const CHANGE_LOGIN ='CHANGE_LOGIN'
 export const CHANGE_DECOLLECT ='CHANGE_DECOLLECT'
 export const ADD_COMMENT ='ADD_COMMENT'
 export const SHOW_USER ='SHOW_USER'
+export const SHOW_MESSAGE ='SHOW_MESSAGE'
+export const UPDATE_MESSAGE ='UPDATE_MESSAGE'
+
+
 
 

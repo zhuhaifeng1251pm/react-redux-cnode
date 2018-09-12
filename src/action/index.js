@@ -5,7 +5,7 @@ import {
   CHANGE_COLLECT,
   CHANGE_GOODNUM,
   CHANGE_LOGIN,CHANGE_DECOLLECT,
-  ADD_COMMENT,SHOW_USER
+  ADD_COMMENT,SHOW_USER,SHOW_MESSAGE,UPDATE_MESSAGE
 } from "../constants/actionTypes";
 import axios from "axios";
 import { URI } from "../constants/url";
@@ -144,4 +144,46 @@ export const showUser= (name,history) => dispatch => {
       });
     })
     .catch(err => {history.push('/404')});
+}
+
+export const showMessage= () => dispatch => {
+  const {token}=sessionStorage
+  const uri = `${URI}/messages/?accesstoken=${token}`
+  axios
+    .get(uri)
+    .then(res => {
+      dispatch({
+        type: SHOW_MESSAGE,
+        message: res.data
+      });
+    })
+    // .catch(err => {history.push('/404')}); 
+}
+
+export const updateMessage= (id,message) => dispatch => {
+  const uri=`${URI}/message/mark_one/${id}`
+  const {token}=sessionStorage
+  console.log(id,message)
+  axios.post(uri,{accesstoken:token}).then(res=>{
+    dispatch({
+      type: UPDATE_MESSAGE,
+      id,
+      message
+    });
+  }).catch(err=>{})
+
+
+
+
+  // const {token}=sessionStorage
+  // const uri = `${URI}/messages/?accesstoken=${token}`
+  // axios
+  //   .get(uri)
+  //   .then(res => {
+  //     dispatch({
+  //       type: UPDATE_MESSAGE,
+  //       message: res.data
+  //     });
+  //   })
+    // .catch(err => {history.push('/404')}); 
 }

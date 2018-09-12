@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HomeContainer from "../../containers/HomeContainer";
 import { connect } from "react-redux";
-import { getTopics } from "../../action";
+import { getTopics,showMessage } from "../../action";
 import Header from "../Header/Header";
 import { BrowserRouter as Router ,Route,Redirect,Switch} from "react-router-dom";
 import './app.scss'
@@ -13,34 +13,34 @@ import Error from "../Error";
 import EditTopicContainer from "../../containers/EditTopicContainer";
 import ShowUserReplyContainer from "../../containers/ShowUserReplyContainer";
 import ShowUserTopicContainer from "../../containers/ShowUserTopicContainer";
-import axios from "axios";
-import {URI} from '../../constants/url'
+// import axios from "axios";
+// import {URI} from '../../constants/url'
 import MessagesContainer from "../../containers/MessagesContainer";
 class App extends Component {
-  state={
-    num:0
-  }
+  // state={
+  //   num:0
+  // }
   componentDidMount() {
     this.props.getTopics();
-    const token =sessionStorage.token
-    const uri=`${URI}/message/count/?accesstoken=${token}`
-    if(token){
-    axios.get(uri).then(res=>{
-      console.log(res.data.data)
-      this.setState({
-        num:res.data.data
-      })
-    }).catch(err=>{})
-  }
+  //   const token =sessionStorage.token
+  //   const uri=`${URI}/message/count/?accesstoken=${token}`
+  //   if(token){
+  //   axios.get(uri).then(res=>{
+  //     console.log(res.data.data)
+  //     this.setState({
+  //       num:res.data.data
+  //     })
+  //   }).catch(err=>{})
+  // }
   }
 
   render() {
-    const {login}=this.props
-    const {num}=this.state
+    const {login,message,showMessage}=this.props
+    // const {num}=this.state
     return (
       <Router>
         <div className="app">
-          <Header login={login} num={num}/>
+          <Header login={login} message={message} showMessage={showMessage}/>
           <Switch>
         <Route path='/' exact component={HomeContainer}  />
         <Route path='/topic/:id'  component={ArticleContainer}  />
@@ -62,11 +62,11 @@ class App extends Component {
 
 const mapStateToProps = state => {
 
-  return  { login:state.login};
+  return  { login:state.login,message:state.message};
   
   };
 
 export default connect(
   mapStateToProps,
-  { getTopics}
+  { getTopics,showMessage}
 )(App);
