@@ -14,7 +14,7 @@ class User extends Component {
      
   }
   render() {
-    const { user} = this.props;
+    const { user,showUser,history} = this.props;
     console.log(this.props);
     const useru=user?user.data.loginname:''
     const userimg=user?user.data.avatar_url:''
@@ -46,7 +46,7 @@ class User extends Component {
       <div className="left">
     {toShowUser}
     <ShowCreatelist user={user}  />
-    <ShowJoinlists user={user}  />
+    <ShowJoinlists user={user} showUser={showUser} history={history} />
     </div>
     <div className="right">
         <p style={{color: '#51585c',padding: '10px',backgroundColor: '#f6f6f6',lineHeight: '20px'}}><span>个人信息</span></p>

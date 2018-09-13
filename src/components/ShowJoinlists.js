@@ -3,19 +3,24 @@ import { NavLink ,Link} from "react-router-dom";
 import Time from "./Time";
 import styled from "styled-components";
 class ShowJoinlists extends Component {
+  hangdleToNewUser=(name,history)=>{
+  this.props.showUser(name,history)
+  }
   render() {
-    const { user} = this.props;
+    const { user,history} = this.props;
     const useru=user?user.data.loginname:''
     const lists = user?
       <ul>
         {user.data.recent_replies.slice(0, 5).map(reply => (
           <li key={reply.id}>
-          <Link to={`/user/${reply.author.loginname}`} >
+          {/* <Link to={`/user/${reply.author.loginname}`} > */}
             <img
               src={reply.author.avatar_url}
               alt=""
               style={{ width: "30px", height: "30px" }}
-            /></Link>
+          onClick={()=>{this.hangdleToNewUser(reply.author.loginname,history)}}
+            />
+            {/* </Link> */}
             <span className="box1">
               <span style={{color:'#9e78c0',fontSize:"14px",fontWeight:'bold',wordBreak: 'break-word'}}>20</span>
               <span style={{color:'#999',fontSize:'10px'}}>/1000</span>
